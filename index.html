@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deploy or Die — The Newsletter for Engineers Who Build Real Things</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --accent: #e8ff47;
+    --accent2: #ff6b35;
+    --text: #f0f0f0;
+    --muted: #888;
+    --border: #222;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--text); }
+
+  nav a.nav-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  nav a.nav-link:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 2.5rem 3rem;
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+
+  h1 .accent { color: var(--accent); }
+  h1 .accent2 { color: var(--accent2); }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+
+  /* FORM */
+  .signup-form {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+
+  .signup-form input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    padding: 0.9rem 1.25rem;
+    border-radius: 4px;
+    width: 300px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .signup-form input::placeholder { color: #444; }
+  .signup-form input:focus { border-color: var(--accent); }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { background: #d4eb30; transform: translateY(-2px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: #444;
+    margin-top: 0.75rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* TICKER */
+  .ticker {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+    background: var(--surface);
+    margin: 2rem 0;
+  }
+
+  .ticker-track {
+    display: inline-flex;
+    gap: 3rem;
+    animation: ticker 28s linear infinite;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .ticker-track span { color: var(--accent); margin-right: 0.5rem; }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* WHAT YOU GET */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 3.5rem;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .card {
+    background: var(--surface);
+    padding: 2.5rem 2rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.3s;
+  }
+
+  .card:hover { background: var(--surface2); }
+  .card:hover::before { height: 100%; }
+
+  .card-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+  }
+
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .card p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  /* TOPICS */
+  .topics {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .topics-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .topic-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .topic-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+    color: var(--text);
+    transition: color 0.2s;
+    cursor: default;
+  }
+
+  .topic-list li:hover { color: var(--accent); }
+
+  .topic-list li .icon {
+    font-size: 1.2rem;
+    width: 2rem;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* SAMPLE ISSUE */
+  .sample {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.9;
+    color: var(--muted);
+    position: relative;
+  }
+
+  .sample::before {
+    content: 'SAMPLE ISSUE PREVIEW';
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .sample .line-hl { color: var(--text); }
+  .sample .line-accent { color: var(--accent); }
+  .sample .line-orange { color: var(--accent2); }
+
+  /* WHO IT'S FOR */
+  .for-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+  }
+
+  .for-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .for-card {
+    border: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    border-radius: 4px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .for-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .for-card .emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .for-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .for-card p { color: var(--muted); font-size: 0.85rem; }
+
+  /* CTA BOTTOM */
+  .cta-bottom {
+    background: var(--accent);
+    padding: 5rem 2.5rem;
+    text-align: center;
+  }
+
+  .cta-bottom h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: #000;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+  }
+
+  .cta-bottom p {
+    color: #333;
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .cta-form {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-form input {
+    background: #fff;
+    border: 2px solid #000;
+    color: #000;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    padding: 0.9rem 1.25rem;
+    border-radius: 4px;
+    width: 280px;
+    outline: none;
+  }
+
+  .btn-dark {
+    background: #000;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .btn-dark:hover { transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    padding: 2.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer .logo { font-size: 1rem; }
+
+  footer p {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: #333;
+    letter-spacing: 0.06em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* BIG NUMBER */
+  .stats {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-item { }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+
+  /* MOBILE */
+  @media (max-width: 700px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .hero { padding: 3rem 1.5rem; }
+    .section { padding: 4rem 1.5rem; }
+    .topics-inner { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.5rem; }
+    .signup-form input { width: 100%; }
+    .stats { gap: 2rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* Success state */
+  .success-msg {
+    display: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--accent);
+    margin-top: 1rem;
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">DEPLOY<span>OR</span>DIE</a>
+  <a href="#subscribe" class="nav-link">[ SUBSCRIBE → ]</a>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>▶</span> AI TOOLS &nbsp;&nbsp;&nbsp;
+    <span>▶</span> DEVOPS &amp; RELEASE ENG &nbsp;&nbsp;&nbsp;
+    <span>▶</span> CRYPTO &amp; WEB3 &nbsp;&nbsp;&nbsp;
+    <span>▶</span> MAKING MONEY WITH TECH &nbsp;&nbsp;&nbsp;
+    <span>▶</span> AUTOMATION THAT ACTUALLY WORKS &nbsp;&nbsp;&nbsp;
+    <span>▶</span> REAL TALK. NO HYPE. &nbsp;&nbsp;&nbsp;
+    <span>▶</span> AI TOOLS &nbsp;&nbsp;&nbsp;
+    <span>▶</span> DEVOPS &amp; RELEASE ENG &nbsp;&nbsp;&nbsp;
+    <span>▶</span> CRYPTO &amp; WEB3 &nbsp;&nbsp;&nbsp;
+    <span>▶</span> MAKING MONEY WITH TECH &nbsp;&nbsp;&nbsp;
+    <span>▶</span> AUTOMATION THAT ACTUALLY WORKS &nbsp;&nbsp;&nbsp;
+    <span>▶</span> REAL TALK. NO HYPE. &nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">// weekly newsletter for engineers</p>
+  <h1>DEPLOY<br/><span class="accent">OR</span><br/><span class="accent2">DIE.</span></h1>
+  <p class="hero-sub">
+    Straight-talk on <strong>AI tools, DevOps, crypto,</strong> and <strong>making real money with tech skills.</strong>
+    Written by an engineer. For engineers. Every week. Free.
+  </p>
+  <form class="signup-form" id="heroForm" onsubmit="handleSubmit(event, 'heroSuccess')">
+    <input type="email" placeholder="your@email.com" required />
+    <button type="submit" class="btn-primary">Ship It →</button>
+  </form>
+  <p class="form-note">// free forever. no spam. unsubscribe in one click.</p>
+  <p class="success-msg" id="heroSuccess">✓ YOU'RE IN. FIRST ISSUE SHIPS FRIDAY.</p>
+
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-num">1×</div>
+      <div class="stat-label">per week</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">~5</div>
+      <div class="stat-label">min read</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">fluff</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">to subscribe</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="section">
+  <p class="section-label">// what's inside</p>
+  <h2>Four topics.<br/>One brutal filter:<br/>does it actually work?</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-num">01 //</div>
+      <h3>AI Tools &amp; Automation</h3>
+      <p>Real reviews of tools engineers actually use — not what's trending on Product Hunt. If it saves you time, you'll hear about it. If it's hype, we'll say so.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">02 //</div>
+      <h3>DevOps &amp; Release Eng</h3>
+      <p>CI/CD, deployment pipelines, incident retrospectives, and the stuff nobody writes about because it's too "boring." Boring pays the bills.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">03 //</div>
+      <h3>Crypto &amp; Web3</h3>
+      <p>Not price predictions. Not moon talk. Practical breakdowns of on-chain tools, DeFi mechanics, and where the actual opportunities are for technically-minded people.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">04 //</div>
+      <h3>Making Money With Tech</h3>
+      <p>Side income, SaaS ideas, productized services, passive revenue. Real strategies for engineers who want more than a salary and don't have 40 hours a week to figure it out.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOPICS / SAMPLE -->
+<div class="topics">
+  <div class="topics-inner">
+    <div>
+      <p class="section-label">// what we cover</p>
+      <h2>Every issue, straight to the point.</h2>
+      <ul class="topic-list">
+        <li><span class="icon">⚙️</span> AI tool of the week — hands-on, not hype</li>
+        <li><span class="icon">🚀</span> One deployment / automation insight</li>
+        <li><span class="icon">💰</span> One money move for technical people</li>
+        <li><span class="icon">🔗</span> Three links worth your time</li>
+        <li><span class="icon">⛓️</span> Crypto/Web3 signal (when there is one)</li>
+      </ul>
+    </div>
+    <div class="sample">
+DEPLOY OR DIE — ISSUE #001
+<span class="line-accent">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+
+<span class="line-hl">THE TOOL: Claude + GitHub Actions</span>
+I hooked Claude into my release pipeline
+this week. It now writes release notes
+automatically from PR diffs. Setup took
+90 minutes. Saved 3 hours last week alone.
+Here's exactly how I did it...
+
+<span class="line-hl">THE MONEY MOVE:</span>
+Productized services > consulting.
+Here's how to package your RE skills
+into a $1,500 fixed-price offer that
+sells while you sleep...
+
+<span class="line-orange">THE CRYPTO SIGNAL:</span>
+Prediction markets are underpriced as
+a data source. Here's a simple API call
+that pulls Polymarket odds into a
+spreadsheet for free...
+
+<span class="line-hl">3 LINKS:</span>
+→ [tool] → [article] → [opportunity]
+<span class="line-accent">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHO IT'S FOR -->
+<section class="for-section" id="subscribe">
+  <p class="section-label">// who this is for</p>
+  <h2>Built for people who build things.</h2>
+  <div class="for-grid">
+    <div class="for-card">
+      <span class="emoji">🔧</span>
+      <h4>Release Engineers</h4>
+      <p>You ship code for a living. You want to make more money doing it — or adjacent to it.</p>
+    </div>
+    <div class="for-card">
+      <span class="emoji">🤖</span>
+      <h4>AI Curious Devs</h4>
+      <p>You've heard the hype. You want to know what AI tools actually do useful work.</p>
+    </div>
+    <div class="for-card">
+      <span class="emoji">💸</span>
+      <h4>Engineers Building Side Income</h4>
+      <p>Day job is covered. Now you want something that generates money while you sleep.</p>
+    </div>
+    <div class="for-card">
+      <span class="emoji">⛓️</span>
+      <h4>Technical Crypto People</h4>
+      <p>Not here for the hype. Here for the mechanics, the tools, and the real opportunities.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BOTTOM -->
+<div class="cta-bottom">
+  <h2>Stop reading about it.<br/>Subscribe.</h2>
+  <p>Free. Weekly. Five minutes. Written by someone who actually deploys things.</p>
+  <form class="cta-form" onsubmit="handleSubmit(event, 'ctaSuccess')">
+    <input type="email" placeholder="your@email.com" required />
+    <button type="submit" class="btn-dark">Ship It →</button>
+  </form>
+  <p class="success-msg" id="ctaSuccess" style="color:#000; margin-top:1rem;">✓ YOU'RE IN. SEE YOU FRIDAY.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">DEPLOY<span>OR</span>DIE</a>
+  <p>// WEEKLY. FREE. REAL TALK. UNSUBSCRIBE ANYTIME.</p>
+</footer>
+
+<script>
+  function handleSubmit(e, successId) {
+    e.preventDefault();
+    const form = e.target;
+    const success = document.getElementById(successId);
+    form.style.display = 'none';
+    success.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
