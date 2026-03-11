@@ -1,0 +1,40 @@
+{
+  "name": "Deploy or Die Standard Episode",
+  "description": "Standard workflow for weekly Deploy or Die YouTube episodes",
+  "settings": {
+    "aspect_ratio": "16:9",
+    "target_duration": "5-8 minutes",
+    "platform": "youtube",
+    "quality": "balanced"
+  },
+  "tts": {
+    "provider": "edge-tts",
+    "voice": "en-US-GuyNeural",
+    "rate": "+5%",
+    "generate_subtitles": true
+  },
+  "visual_defaults": {
+    "narration_scenes": {
+      "style": "dark terminal aesthetic with code-like overlays",
+      "background": "dark gradient with subtle matrix-style animation",
+      "text_overlay": true,
+      "brand_watermark": true
+    },
+    "code_demo_scenes": {
+      "style": "screen recording or code-on-dark-background",
+      "font": "Space Mono",
+      "syntax_highlighting": true,
+      "zoom_to_relevant_lines": true
+    }
+  },
+  "audio": {
+    "background_music": "lo-fi ambient, low volume",
+    "transition_sound": "subtle click/beep"
+  },
+  "branding": {
+    "intro_duration": 3,
+    "outro_duration": 5,
+    "subscribe_cta": true,
+    "newsletter_link": "deployordie.io"
+  }
+}

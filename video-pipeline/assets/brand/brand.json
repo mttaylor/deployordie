@@ -1,0 +1,24 @@
+{
+  "name": "Deploy or Die",
+  "tagline": "Straight talk for engineers who want more",
+  "colors": {
+    "primary": "#e8ff47",
+    "background": "#0a0a0a",
+    "text": "#ffffff",
+    "accent": "#00ff88"
+  },
+  "fonts": {
+    "code": "Space Mono",
+    "heading": "Syne",
+    "body": "DM Sans"
+  },
+  "tts": {
+    "provider": "edge-tts",
+    "voice": "en-US-GuyNeural",
+    "rate": "+5%"
+  },
+  "youtube": {
+    "channel": "@deployordie",
+    "default_aspect": "16:9"
+  }
+}
