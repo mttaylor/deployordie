@@ -752,7 +752,7 @@ spreadsheet for free...
     submitBtn.disabled = true;
     submitBtn.textContent = 'SUBSCRIBING...';
 
-    fetch('/api/subscribe', {
+    fetch('https://deployordie-subscribe.matttaylor-ce.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email })
