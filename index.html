@@ -4,9 +4,51 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Deploy or Die — The Newsletter for Engineers Who Build Real Things</title>
+<meta name="description" content="Weekly newsletter covering AI tools, DevOps, crypto, and making real money with tech skills. Written by an engineer, for engineers. Free." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://deployordie.io" />
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://deployordie.io" />
+<meta property="og:title" content="Deploy or Die — The Newsletter for Engineers Who Build Real Things" />
+<meta property="og:description" content="Straight-talk on AI tools, DevOps, crypto, and making real money with tech skills. Weekly. Free. No fluff." />
+<meta property="og:site_name" content="Deploy or Die" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Deploy or Die — Weekly Newsletter for Engineers" />
+<meta name="twitter:description" content="AI tools, DevOps, crypto, and making money with tech. Written by an engineer. For engineers." />
+
+<!-- Security -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Deploy or Die",
+  "description": "Weekly newsletter covering AI tools, DevOps, crypto, and making real money with tech skills.",
+  "url": "https://deployordie.io",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Deploy or Die"
+  },
+  "potentialAction": {
+    "@type": "SubscribeAction",
+    "target": "https://deployordie.io",
+    "name": "Subscribe to Deploy or Die newsletter"
+  }
+}
+</script>
 <style>
   :root {
     --bg: #0a0a0a;
@@ -575,12 +617,58 @@
     margin-top: 1rem;
     letter-spacing: 0.06em;
   }
+
+  /* Accessibility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    background: var(--accent);
+    color: #000;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    z-index: 200;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .skip-link:focus { top: 1rem; }
+
+  /* Legal text */
+  .footer-text { text-align: right; }
+  .legal {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    color: #555;
+    margin-top: 0.4rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 480px) {
+    .footer-text { text-align: left; }
+  }
 </style>
 </head>
 <body>
 
+<!-- Skip Navigation -->
+<a href="#heroForm" class="skip-link">Skip to signup</a>
+
 <!-- NAV -->
-<nav>
+<nav role="navigation" aria-label="Main navigation">
   <a href="#" class="logo">DEPLOY<span>OR</span><span class="die">DIE</span></a>
   <a href="#subscribe" class="nav-link">[ SUBSCRIBE → ]</a>
 </nav>
@@ -604,7 +692,7 @@
 </div>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" aria-label="Hero">
   <p class="hero-tag">// weekly newsletter for engineers</p>
   <h1>DEPLOY<br/><span class="accent">OR</span><br/><span class="accent2">DIE.</span></h1>
   <p class="hero-sub">
@@ -612,8 +700,9 @@
     Written by an engineer. For engineers. Every week. Free.
   </p>
   <form class="signup-form" id="heroForm" onsubmit="handleSubmit(event, 'heroSuccess')">
-    <input type="email" placeholder="your@email.com" required />
-    <button type="submit" class="btn-primary">Ship It →</button>
+    <label for="heroEmail" class="sr-only">Email address</label>
+    <input type="email" id="heroEmail" name="email" placeholder="your@email.com" required autocomplete="email" aria-label="Email address" />
+    <button type="submit" class="btn-primary" aria-label="Subscribe to newsletter">Ship It →</button>
   </form>
   <p class="form-note">// free forever. no spam. unsubscribe in one click.</p>
   <p class="success-msg" id="heroSuccess">✓ YOU'RE IN. FIRST ISSUE SHIPS THURSDAY.</p>
@@ -743,16 +832,21 @@ spreadsheet for free...
   <h2>Stop reading about it.<br/>Subscribe.</h2>
   <p>Free. Weekly. Five minutes. Written by someone who actually deploys things.</p>
   <form class="cta-form" onsubmit="handleSubmit(event, 'ctaSuccess')">
-    <input type="email" placeholder="your@email.com" required />
-    <button type="submit" class="btn-dark">Ship It →</button>
+    <label for="ctaEmail" class="sr-only">Email address</label>
+    <input type="email" id="ctaEmail" name="email" placeholder="your@email.com" required autocomplete="email" aria-label="Email address" />
+    <button type="submit" class="btn-dark" aria-label="Subscribe to newsletter">Ship It →</button>
   </form>
   <p class="success-msg" id="ctaSuccess" style="color:#000; margin-top:1rem;">✓ YOU'RE IN. SEE YOU THURSDAY.</p>
 </div>
 
 <!-- FOOTER -->
-<footer>
+<footer role="contentinfo">
   <a href="#" class="logo">DEPLOY<span>OR</span><span class="die">DIE</span></a>
-  <p>// WEEKLY. FREE. REAL TALK. UNSUBSCRIBE ANYTIME.</p>
+  <div class="footer-text">
+    <p>// WEEKLY. FREE. REAL TALK. UNSUBSCRIBE ANYTIME.</p>
+    <p class="legal">By subscribing, you agree to receive email newsletters. Unsubscribe at any time. We respect your privacy and will never share your email.</p>
+    <p class="legal">&copy; 2026 Deploy or Die. All rights reserved.</p>
+  </div>
 </footer>
 
 <script>
@@ -760,8 +854,15 @@ spreadsheet for free...
     e.preventDefault();
     var form = e.target;
     var emailInput = form.querySelector('input[type="email"]');
-    var email = emailInput.value.trim();
+    var email = emailInput.value.trim().toLowerCase();
     if (!email) return;
+
+    // Client-side email validation
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email) || email.length > 254) {
+      alert('Please enter a valid email address.');
+      return;
+    }
 
     var submitBtn = form.querySelector('button[type="submit"]');
     var originalText = submitBtn.textContent;
@@ -777,7 +878,13 @@ spreadsheet for free...
     .then(function(data) {
       if (data.success) {
         form.style.display = 'none';
-        document.getElementById(successId).style.display = 'block';
+        var successMsg = document.getElementById(successId);
+        successMsg.style.display = 'block';
+        successMsg.setAttribute('role', 'alert');
+      } else if (data.error === 'Too many requests') {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        alert('Too many attempts. Please wait a moment and try again.');
       } else {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;

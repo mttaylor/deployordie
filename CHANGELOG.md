@@ -2,6 +2,67 @@
 
 All notable changes to Deploy or Die are documented here.
 
+## [1.1.0] - 2026-03-16
+
+### 🔒 Security & Production Hardening
+
+- **Cloudflare Worker proxy** for Beehiiv API (replaces dead Pages Function)
+- Rate limiting: 5 requests/IP/minute on subscribe endpoint
+- Server-side email validation with regex + length check
+- CORS locked to `https://deployordie.io` only
+- `X-Content-Type-Options: nosniff` on all API responses
+- Client-side email validation before submission
+- Security headers via `_headers` file: CSP, X-Frame-Options DENY, Permissions-Policy, Referrer-Policy
+- Removed dead `functions/` directory (was never served)
+
+### 🌐 SEO & Discoverability
+
+- Open Graph meta tags (og:title, og:description, og:type, og:url)
+- Twitter Card meta tags
+- JSON-LD structured data (WebPage + SubscribeAction)
+- `robots.txt` with sitemap reference
+- `sitemap.xml` for search engine indexing
+- Canonical URL meta tag
+- Meta description
+
+### ♿ Accessibility
+
+- Skip navigation link (visible on keyboard focus)
+- ARIA labels on nav, forms, buttons
+- Screen-reader-only label class (`.sr-only`)
+- `role="alert"` on success messages for screen readers
+- `autocomplete="email"` on all email inputs
+- Form inputs have associated `<label>` elements
+- Footer text contrast fixed (`#333` → `#888` for WCAG AA)
+
+### 📱 Mobile & Tablet Overhaul
+
+- Forms stack at 768px (was 480px) — better touch UX
+- Nav touch target expanded (44px+ hit area on subscribe link)
+- Stats section uses CSS Grid (4-col tablet, 2x2 mobile) instead of flexbox
+- Sample code block: horizontal scroll + edge-bleed on mobile
+- Cards forced 2-col on tablet (no awkward 3+1 wrapping)
+- Reduced card/for-card padding on mobile
+- Missing responsive padding added for `.for-section`, `.topics-inner`
+- CTA form full-width stacked on tablet
+- Grain overlay disabled on mobile/tablet (performance)
+- Backdrop blur reduced on smaller screens
+
+### 📋 Legal & Compliance
+
+- Privacy notice in footer ("We respect your privacy and will never share your email")
+- Copyright notice (© 2026 Deploy or Die)
+- Unsubscribe messaging on signup forms and footer
+
+### 🧹 Cleanup
+
+- Removed unused Cloudflare Pages Function (`functions/api/subscribe.js`)
+- Added `_headers` file for Cloudflare security headers
+- Favicon added (rocket emoji SVG)
+- Google Fonts preconnect for `fonts.gstatic.com` (was missing `crossorigin`)
+
+---
+
 ## [1.0.0] - 2026-03-16
 
 ### 🚀 Production Release
