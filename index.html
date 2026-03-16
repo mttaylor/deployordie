@@ -595,8 +595,12 @@
     Straight-talk on <strong>AI tools, DevOps, crypto,</strong> and <strong>making real money with tech skills.</strong>
     Written by an engineer. For engineers. Every week. Free.
   </p>
-  <iframe src="https://embeds.beehiiv.com/660f6991-8e95-4cc5-af94-11314180eff5?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0; border-radius:4px; width:100%; max-width:480px;"></iframe>
+  <form class="signup-form" id="heroForm" onsubmit="handleSubmit(event, 'heroSuccess')">
+    <input type="email" placeholder="your@email.com" required />
+    <button type="submit" class="btn-primary">Ship It →</button>
+  </form>
   <p class="form-note">// free forever. no spam. unsubscribe in one click.</p>
+  <p class="success-msg" id="heroSuccess">✓ YOU'RE IN. FIRST ISSUE SHIPS THURSDAY.</p>
 
   <div class="stats">
     <div class="stat-item">
@@ -722,7 +726,11 @@ spreadsheet for free...
 <div class="cta-bottom">
   <h2>Stop reading about it.<br/>Subscribe.</h2>
   <p>Free. Weekly. Five minutes. Written by someone who actually deploys things.</p>
-  <iframe src="https://embeds.beehiiv.com/660f6991-8e95-4cc5-af94-11314180eff5?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0 auto; border-radius:4px; width:100%; max-width:480px;"></iframe>
+  <form class="cta-form" onsubmit="handleSubmit(event, 'ctaSuccess')">
+    <input type="email" placeholder="your@email.com" required />
+    <button type="submit" class="btn-dark">Ship It →</button>
+  </form>
+  <p class="success-msg" id="ctaSuccess" style="color:#000; margin-top:1rem;">✓ YOU'RE IN. SEE YOU THURSDAY.</p>
 </div>
 
 <!-- FOOTER -->
@@ -731,7 +739,35 @@ spreadsheet for free...
   <p>// WEEKLY. FREE. REAL TALK. UNSUBSCRIBE ANYTIME.</p>
 </footer>
 
+<script>
+  function handleSubmit(e, successId) {
+    e.preventDefault();
+    var form = e.target;
+    var emailInput = form.querySelector('input[type="email"]');
+    var email = emailInput.value.trim();
+    if (!email) return;
 
+    var submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'SUBSCRIBING...';
+
+    // Open Beehiiv subscribe page in a small popup
+    var w = 500, h = 600;
+    var left = (screen.width - w) / 2;
+    var top = (screen.height - h) / 2;
+    window.open(
+      'https://embeds.beehiiv.com/660f6991-8e95-4cc5-af94-11314180eff5',
+      'beehiiv_subscribe',
+      'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top + ',toolbar=no,menubar=no'
+    );
+
+    // Show success on main page
+    setTimeout(function() {
+      form.style.display = 'none';
+      document.getElementById(successId).style.display = 'block';
+    }, 1500);
+  }
+</script>
 
 </body>
 </html>
