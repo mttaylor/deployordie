@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
-<script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
 <style>
   :root {
     --bg: #0a0a0a;
@@ -749,36 +748,45 @@ spreadsheet for free...
     if (!email) return;
 
     var submitBtn = form.querySelector('button[type="submit"]');
-    var originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'SUBSCRIBING...';
 
-    var formData = new FormData();
-    formData.append('email', email);
-    formData.append('reactivate_existing', 'true');
-    formData.append('send_welcome_email', 'true');
-    formData.append('utm_source', window.location.href);
-    formData.append('utm_medium', 'website');
-    formData.append('referring_site', window.location.href);
+    // Use hidden iframe + real HTML form POST (bypasses CORS)
+    var iframeName = 'beehiiv_' + Date.now();
+    var iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
 
-    fetch('https://subscribe-forms.beehiiv.com/subscribe/660f6991-8e95-4cc5-af94-11314180eff5', {
-      method: 'POST',
-      body: formData
-    })
-    .then(function(res) {
-      if (res.ok || res.status === 302 || res.status === 301 || res.redirected) {
-        form.style.display = 'none';
-        document.getElementById(successId).style.display = 'block';
-      } else {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-        alert('Something went wrong. Please try again.');
-      }
-    })
-    .catch(function() {
+    var subForm = document.createElement('form');
+    subForm.method = 'POST';
+    subForm.action = 'https://deployordie.beehiiv.com/subscribe';
+    subForm.target = iframeName;
+    subForm.style.display = 'none';
+
+    var fields = { email: email, utm_source: 'website', referring_site: window.location.href };
+    for (var key in fields) {
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = fields[key];
+      subForm.appendChild(input);
+    }
+
+    document.body.appendChild(subForm);
+    subForm.submit();
+
+    // Show success after brief delay for form to submit
+    setTimeout(function() {
       form.style.display = 'none';
       document.getElementById(successId).style.display = 'block';
-    });
+    }, 1200);
+
+    // Clean up iframe and form after 15s
+    setTimeout(function() {
+      try { document.body.removeChild(iframe); } catch(e) {}
+      try { document.body.removeChild(subForm); } catch(e) {}
+    }, 15000);
   }
 </script>
 
