@@ -741,10 +741,39 @@ spreadsheet for free...
 <script>
   function handleSubmit(e, successId) {
     e.preventDefault();
-    const form = e.target;
-    const success = document.getElementById(successId);
-    form.style.display = 'none';
-    success.style.display = 'block';
+    var form = e.target;
+    var emailInput = form.querySelector('input[type="email"]');
+    var email = emailInput.value.trim();
+    if (!email) return;
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'SUBSCRIBING...';
+
+    fetch('https://embeds.beehiiv.com/forms/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        publication_id: 'pub_7c4c1291-7b1f-47bc-81f4-163e86602809',
+        email: email
+      })
+    })
+    .then(function(res) {
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById(successId).style.display = 'block';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        alert('Something went wrong. Please try again.');
+      }
+    })
+    .catch(function() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      alert('Connection error. Please try again.');
+    });
   }
 </script>
 
