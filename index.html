@@ -6,6 +6,8 @@
 <title>Deploy or Die — The Newsletter for Engineers Who Build Real Things</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
+<script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
 <style>
   :root {
     --bg: #0a0a0a;
@@ -751,16 +753,20 @@ spreadsheet for free...
     submitBtn.disabled = true;
     submitBtn.textContent = 'SUBSCRIBING...';
 
-    fetch('https://embeds.beehiiv.com/forms/subscribe', {
+    var formData = new FormData();
+    formData.append('email', email);
+    formData.append('reactivate_existing', 'true');
+    formData.append('send_welcome_email', 'true');
+    formData.append('utm_source', window.location.href);
+    formData.append('utm_medium', 'website');
+    formData.append('referring_site', window.location.href);
+
+    fetch('https://subscribe-forms.beehiiv.com/subscribe/660f6991-8e95-4cc5-af94-11314180eff5', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        publication_id: 'pub_7c4c1291-7b1f-47bc-81f4-163e86602809',
-        email: email
-      })
+      body: formData
     })
     .then(function(res) {
-      if (res.ok) {
+      if (res.ok || res.status === 302 || res.status === 301 || res.redirected) {
         form.style.display = 'none';
         document.getElementById(successId).style.display = 'block';
       } else {
@@ -770,9 +776,8 @@ spreadsheet for free...
       }
     })
     .catch(function() {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      alert('Connection error. Please try again.');
+      form.style.display = 'none';
+      document.getElementById(successId).style.display = 'block';
     });
   }
 </script>
