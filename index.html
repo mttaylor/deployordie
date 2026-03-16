@@ -595,12 +595,8 @@
     Straight-talk on <strong>AI tools, DevOps, crypto,</strong> and <strong>making real money with tech skills.</strong>
     Written by an engineer. For engineers. Every week. Free.
   </p>
-  <form class="signup-form" id="heroForm" onsubmit="handleSubmit(event, 'heroSuccess')">
-    <input type="email" placeholder="your@email.com" required />
-    <button type="submit" class="btn-primary">Ship It →</button>
-  </form>
+  <iframe src="https://embeds.beehiiv.com/660f6991-8e95-4cc5-af94-11314180eff5?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0; border-radius:4px; width:100%; max-width:480px;"></iframe>
   <p class="form-note">// free forever. no spam. unsubscribe in one click.</p>
-  <p class="success-msg" id="heroSuccess">✓ YOU'RE IN. FIRST ISSUE SHIPS THURSDAY.</p>
 
   <div class="stats">
     <div class="stat-item">
@@ -726,11 +722,7 @@ spreadsheet for free...
 <div class="cta-bottom">
   <h2>Stop reading about it.<br/>Subscribe.</h2>
   <p>Free. Weekly. Five minutes. Written by someone who actually deploys things.</p>
-  <form class="cta-form" onsubmit="handleSubmit(event, 'ctaSuccess')">
-    <input type="email" placeholder="your@email.com" required />
-    <button type="submit" class="btn-dark">Ship It →</button>
-  </form>
-  <p class="success-msg" id="ctaSuccess" style="color:#000; margin-top:1rem;">✓ YOU'RE IN. SEE YOU THURSDAY.</p>
+  <iframe src="https://embeds.beehiiv.com/660f6991-8e95-4cc5-af94-11314180eff5?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0 auto; border-radius:4px; width:100%; max-width:480px;"></iframe>
 </div>
 
 <!-- FOOTER -->
@@ -739,56 +731,7 @@ spreadsheet for free...
   <p>// WEEKLY. FREE. REAL TALK. UNSUBSCRIBE ANYTIME.</p>
 </footer>
 
-<script>
-  function handleSubmit(e, successId) {
-    e.preventDefault();
-    var form = e.target;
-    var emailInput = form.querySelector('input[type="email"]');
-    var email = emailInput.value.trim();
-    if (!email) return;
 
-    var submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'SUBSCRIBING...';
-
-    // Use hidden iframe + real HTML form POST (bypasses CORS)
-    var iframeName = 'beehiiv_' + Date.now();
-    var iframe = document.createElement('iframe');
-    iframe.name = iframeName;
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-
-    var subForm = document.createElement('form');
-    subForm.method = 'POST';
-    subForm.action = 'https://deployordie.beehiiv.com/subscribe';
-    subForm.target = iframeName;
-    subForm.style.display = 'none';
-
-    var fields = { email: email, utm_source: 'website', referring_site: window.location.href };
-    for (var key in fields) {
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = fields[key];
-      subForm.appendChild(input);
-    }
-
-    document.body.appendChild(subForm);
-    subForm.submit();
-
-    // Show success after brief delay for form to submit
-    setTimeout(function() {
-      form.style.display = 'none';
-      document.getElementById(successId).style.display = 'block';
-    }, 1200);
-
-    // Clean up iframe and form after 15s
-    setTimeout(function() {
-      try { document.body.removeChild(iframe); } catch(e) {}
-      try { document.body.removeChild(subForm); } catch(e) {}
-    }, 15000);
-  }
-</script>
 
 </body>
 </html>
