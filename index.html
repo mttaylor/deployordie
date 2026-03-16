@@ -748,24 +748,31 @@ spreadsheet for free...
     if (!email) return;
 
     var submitBtn = form.querySelector('button[type="submit"]');
+    var originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'SUBSCRIBING...';
 
-    // Open Beehiiv subscribe page in a small popup
-    var w = 500, h = 600;
-    var left = (screen.width - w) / 2;
-    var top = (screen.height - h) / 2;
-    window.open(
-      'https://embeds.beehiiv.com/660f6991-8e95-4cc5-af94-11314180eff5',
-      'beehiiv_subscribe',
-      'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top + ',toolbar=no,menubar=no'
-    );
-
-    // Show success on main page
-    setTimeout(function() {
-      form.style.display = 'none';
-      document.getElementById(successId).style.display = 'block';
-    }, 1500);
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        form.style.display = 'none';
+        document.getElementById(successId).style.display = 'block';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        alert('Something went wrong. Please try again.');
+      }
+    })
+    .catch(function() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      alert('Connection error. Please try again.');
+    });
   }
 </script>
 
