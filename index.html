@@ -657,8 +657,26 @@
     line-height: 1.5;
   }
 
+  .footer-socials {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .footer-socials a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+
+  .footer-socials a:hover { color: var(--accent); }
+
   @media (max-width: 480px) {
     .footer-text { text-align: left; }
+    .footer-socials { flex-wrap: wrap; gap: 1rem; }
   }
 </style>
 </head>
@@ -842,6 +860,12 @@ spreadsheet for free...
 <!-- FOOTER -->
 <footer role="contentinfo">
   <a href="#" class="logo">DEPLOY<span>OR</span><span class="die">DIE</span></a>
+  <div class="footer-socials">
+    <a href="https://x.com/deployordie_ai" target="_blank" rel="noopener noreferrer">X</a>
+    <a href="https://www.youtube.com/@deployordie" target="_blank" rel="noopener noreferrer">YOUTUBE</a>
+    <a href="https://www.linkedin.com/company/deployordie/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+    <a href="https://github.com/mttaylor/deployordiecontent" target="_blank" rel="noopener noreferrer">GITHUB</a>
+  </div>
   <div class="footer-text">
     <p>// WEEKLY. FREE. REAL TALK. UNSUBSCRIBE ANYTIME.</p>
     <p class="legal">By subscribing, you agree to receive email newsletters. Unsubscribe at any time. We respect your privacy and will never share your email.</p>
