@@ -674,9 +674,56 @@
 
   .footer-socials a:hover { color: var(--accent); }
 
+  .support-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-support {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: var(--accent2);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.58rem 0.95rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: transform 0.15s, background 0.2s;
+  }
+
+  .btn-support:hover {
+    background: #ff7f52;
+    transform: translateY(-2px);
+  }
+
+  .support-alt {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.07em;
+    color: #666;
+    text-decoration: none;
+    border-bottom: 1px dashed #444;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .support-alt:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
   @media (max-width: 480px) {
     .footer-text { text-align: left; }
     .footer-socials { flex-wrap: wrap; gap: 1rem; }
+    .support-cta { align-items: flex-start; }
   }
 </style>
 </head>
@@ -868,6 +915,10 @@ spreadsheet for free...
   </div>
   <div class="footer-text">
     <p>// WEEKLY. FREE. REAL TALK. UNSUBSCRIBE ANYTIME.</p>
+    <div class="support-cta" aria-label="Support Deploy or Die">
+      <a class="btn-support" href="https://paypal.me/mtaylorCE" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>
+      <a class="support-alt" href="https://venmo.com/u/engineeringdad" target="_blank" rel="noopener noreferrer">or Venmo</a>
+    </div>
     <p class="legal">By subscribing, you agree to receive email newsletters. Unsubscribe at any time. We respect your privacy and will never share your email.</p>
     <p class="legal">&copy; 2026 Deploy or Die. All rights reserved.</p>
   </div>
