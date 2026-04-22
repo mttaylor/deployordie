@@ -661,18 +661,34 @@
     display: flex;
     gap: 1.25rem;
     align-items: center;
+    justify-content: center;
+    flex: 1;
   }
 
   .footer-socials a {
     font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 2.1rem;
     color: var(--muted);
     text-decoration: none;
     letter-spacing: 0.06em;
     transition: color 0.2s;
+    line-height: 1;
   }
 
   .footer-socials a:hover { color: var(--accent); }
+
+  @media (max-width: 1024px) {
+    .footer-socials a { font-size: 1.7rem; }
+  }
+
+  @media (max-width: 768px) {
+    .footer-socials {
+      justify-content: flex-start;
+      width: 100%;
+      flex: unset;
+    }
+    .footer-socials a { font-size: 1.35rem; }
+  }
 
   .support-cta {
     display: flex;
