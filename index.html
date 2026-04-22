@@ -496,14 +496,16 @@
   footer {
     padding: 2.5rem;
     border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
-    flex-wrap: wrap;
     gap: 1rem;
   }
 
-  footer .logo { font-size: 1rem; }
+  footer .logo {
+    font-size: 1rem;
+    justify-self: start;
+  }
 
   footer p {
     font-family: 'Space Mono', monospace;
@@ -648,7 +650,10 @@
   .skip-link:focus { top: 1rem; }
 
   /* Legal text */
-  .footer-text { text-align: right; }
+  .footer-text {
+    text-align: right;
+    justify-self: end;
+  }
   .legal {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.65rem;
@@ -662,7 +667,8 @@
     gap: 1.25rem;
     align-items: center;
     justify-content: center;
-    flex: 1;
+    justify-self: center;
+    width: max-content;
   }
 
   .footer-socials a {
@@ -682,11 +688,24 @@
   }
 
   @media (max-width: 768px) {
+    footer {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    footer .logo,
+    .footer-socials,
+    .footer-text {
+      justify-self: start;
+    }
+
+    .footer-text { text-align: left; }
+
     .footer-socials {
       justify-content: flex-start;
       width: 100%;
-      flex: unset;
     }
+
     .footer-socials a { font-size: 1.35rem; }
   }
 
@@ -740,6 +759,7 @@
     .footer-text { text-align: left; }
     .footer-socials { flex-wrap: wrap; gap: 1rem; }
     .support-cta { align-items: flex-start; }
+    footer { padding: 2rem 1.25rem; }
   }
 </style>
 </head>
