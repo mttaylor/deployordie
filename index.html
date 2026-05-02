@@ -434,6 +434,195 @@
   }
   .for-card p { color: var(--muted); font-size: 0.85rem; }
 
+  /* LATEST SECTION */
+  .latest-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+  }
+
+  .latest-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .latest-col-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .latest-col-label a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.65rem;
+    margin-left: auto;
+    border-bottom: 1px dashed #444;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .latest-col-label a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .issue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .issue-card {
+    display: block;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .issue-card:last-child { border-bottom: none; }
+
+  .issue-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .issue-card:hover { background: var(--surface2); }
+  .issue-card:hover::before { opacity: 1; }
+
+  .issue-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .issue-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+
+  .issue-card:hover .issue-title { color: var(--accent); }
+
+  .issue-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    display: block;
+  }
+
+  .video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .video-card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    text-decoration: none;
+    color: var(--text);
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .video-card:hover { background: var(--surface2); }
+
+  .video-thumb {
+    position: relative;
+    flex-shrink: 0;
+    width: 140px;
+    aspect-ratio: 16/9;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+
+  .video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-thumb::after {
+    content: '▶';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #fff;
+    background: rgba(0,0,0,0.35);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .video-card:hover .video-thumb::after { opacity: 1; }
+
+  .video-info { flex: 1; min-width: 0; }
+
+  .video-ep {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+
+  .video-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    transition: color 0.2s;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .video-card:hover .video-title { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .latest-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .latest-section { padding: 3.5rem 1.5rem; }
+    .video-thumb { width: 110px; }
+  }
+
+  @media (max-width: 480px) {
+    .latest-section { padding: 3rem 1.25rem; }
+    .video-thumb { width: 90px; }
+  }
+
   /* CTA BOTTOM */
   .cta-bottom {
     background: var(--accent);
@@ -925,6 +1114,75 @@ spreadsheet for free...
       <h4>Technical Crypto People</h4>
       <p>Not here for the hype. Here for the mechanics, the tools, and the real opportunities.</p>
     </div>
+  </div>
+</section>
+
+<!-- LATEST ISSUES + VIDEOS -->
+<section class="latest-section" aria-label="Latest issues and videos">
+  <div class="latest-grid">
+
+    <!-- Newsletter Issues -->
+    <div>
+      <div class="latest-col-label">
+        // latest issues
+        <a href="https://newsletter.deployordie.io/" target="_blank" rel="noopener noreferrer">All issues →</a>
+      </div>
+      <div class="issue-list">
+        <a class="issue-card" href="https://newsletter.deployordie.io/p/i-set-up-an-ai-agent-to-draft-my-weekly-newsletter-here-s-the-prompt" target="_blank" rel="noopener noreferrer">
+          <div class="issue-meta">ISSUE #007 &nbsp;·&nbsp; MAY 1, 2026</div>
+          <div class="issue-title">I Set Up an AI Agent to Draft My Weekly Newsletter. Here's the Prompt.</div>
+          <span class="issue-arrow">READ → </span>
+        </a>
+        <a class="issue-card" href="https://newsletter.deployordie.io/p/what-on-chain-data-actually-tells-you-and-how-to-read-it-without-a-bloomberg-terminal" target="_blank" rel="noopener noreferrer">
+          <div class="issue-meta">ISSUE #006 &nbsp;·&nbsp; APR 25, 2026</div>
+          <div class="issue-title">What On-Chain Data Actually Tells You (and How to Read It Without a Bloomberg Terminal)</div>
+          <span class="issue-arrow">READ → </span>
+        </a>
+        <a class="issue-card" href="https://newsletter.deployordie.io/p/beehiiv-vs-substack-for-technical-newsletters-which-one-pays-better" target="_blank" rel="noopener noreferrer">
+          <div class="issue-meta">ISSUE #005 &nbsp;·&nbsp; APR 19, 2026</div>
+          <div class="issue-title">Beehiiv vs Substack for Technical Newsletters: Which One Pays Better</div>
+          <span class="issue-arrow">READ → </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- YouTube Videos -->
+    <div>
+      <div class="latest-col-label">
+        // on youtube
+        <a href="https://www.youtube.com/@deployordie" target="_blank" rel="noopener noreferrer">All videos →</a>
+      </div>
+      <div class="video-list">
+        <a class="video-card" href="https://youtu.be/0DMyLW2mKXs" target="_blank" rel="noopener noreferrer">
+          <div class="video-thumb">
+            <img src="https://i.ytimg.com/vi/0DMyLW2mKXs/hqdefault.jpg" alt="How to setup an AI Agent to help you accomplish tasks" loading="lazy" />
+          </div>
+          <div class="video-info">
+            <div class="video-ep">EP007</div>
+            <div class="video-title">How to Setup an AI Agent to Help You Accomplish Tasks</div>
+          </div>
+        </a>
+        <a class="video-card" href="https://youtu.be/le1j8NZfC7M" target="_blank" rel="noopener noreferrer">
+          <div class="video-thumb">
+            <img src="https://i.ytimg.com/vi/le1j8NZfC7M/hqdefault.jpg" alt="What On-Chain Data Actually Tells You" loading="lazy" />
+          </div>
+          <div class="video-info">
+            <div class="video-ep">EP006</div>
+            <div class="video-title">What On-Chain Data Actually Tells You (and How to Read It Without a Bloomberg Terminal)</div>
+          </div>
+        </a>
+        <a class="video-card" href="https://youtu.be/ZMCDH4ANtkw" target="_blank" rel="noopener noreferrer">
+          <div class="video-thumb">
+            <img src="https://i.ytimg.com/vi/ZMCDH4ANtkw/hqdefault.jpg" alt="Beehiiv vs Substack for Technical Newsletters" loading="lazy" />
+          </div>
+          <div class="video-info">
+            <div class="video-ep">EP005</div>
+            <div class="video-title">Beehiiv vs Substack for Technical Newsletters: Which One Pays Better</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 
