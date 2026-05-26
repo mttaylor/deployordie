@@ -992,7 +992,7 @@
   <form class="signup-form" id="heroForm" onsubmit="handleSubmit(event, 'heroSuccess')">
     <label for="heroEmail" class="sr-only">Email address</label>
     <input type="email" id="heroEmail" name="email" placeholder="your@email.com" required autocomplete="email" aria-label="Email address" />
-    <button type="submit" class="btn-primary" aria-label="Subscribe to newsletter">Ship It →</button>
+    <button type="submit" class="btn-primary" aria-label="Subscribe to newsletter">Subscribe or Die</button>
   </form>
   <p class="form-note">// free forever. no spam. unsubscribe in one click.</p>
   <p class="success-msg" id="heroSuccess">✓ YOU'RE IN. FIRST ISSUE SHIPS THURSDAY.</p>
@@ -1127,60 +1127,16 @@ spreadsheet for free...
         // latest issues
         <a href="https://newsletter.deployordie.io/" target="_blank" rel="noopener noreferrer">All issues →</a>
       </div>
-      <div class="issue-list">
-        <a class="issue-card" href="https://newsletter.deployordie.io/p/i-set-up-an-ai-agent-to-draft-my-weekly-newsletter-here-s-the-prompt" target="_blank" rel="noopener noreferrer">
-          <div class="issue-meta">ISSUE #007 &nbsp;·&nbsp; MAY 1, 2026</div>
-          <div class="issue-title">I Set Up an AI Agent to Draft My Weekly Newsletter. Here's the Prompt.</div>
-          <span class="issue-arrow">READ → </span>
-        </a>
-        <a class="issue-card" href="https://newsletter.deployordie.io/p/what-on-chain-data-actually-tells-you-and-how-to-read-it-without-a-bloomberg-terminal" target="_blank" rel="noopener noreferrer">
-          <div class="issue-meta">ISSUE #006 &nbsp;·&nbsp; APR 25, 2026</div>
-          <div class="issue-title">What On-Chain Data Actually Tells You (and How to Read It Without a Bloomberg Terminal)</div>
-          <span class="issue-arrow">READ → </span>
-        </a>
-        <a class="issue-card" href="https://newsletter.deployordie.io/p/beehiiv-vs-substack-for-technical-newsletters-which-one-pays-better" target="_blank" rel="noopener noreferrer">
-          <div class="issue-meta">ISSUE #005 &nbsp;·&nbsp; APR 19, 2026</div>
-          <div class="issue-title">Beehiiv vs Substack for Technical Newsletters: Which One Pays Better</div>
-          <span class="issue-arrow">READ → </span>
-        </a>
-      </div>
+      <div class="issue-list" id="latestIssuesList"></div>
     </div>
 
-    <!-- YouTube Videos -->
+    <!-- Latest Episodes -->
     <div>
       <div class="latest-col-label">
-        // on youtube
-        <a href="https://www.youtube.com/@deployordie" target="_blank" rel="noopener noreferrer">All videos →</a>
+        // latest episodes
+        <a href="https://newsletter.deployordie.io/" target="_blank" rel="noopener noreferrer">All episodes →</a>
       </div>
-      <div class="video-list">
-        <a class="video-card" href="https://youtu.be/0DMyLW2mKXs" target="_blank" rel="noopener noreferrer">
-          <div class="video-thumb">
-            <img src="https://i.ytimg.com/vi/0DMyLW2mKXs/hqdefault.jpg" alt="How to setup an AI Agent to help you accomplish tasks" loading="lazy" />
-          </div>
-          <div class="video-info">
-            <div class="video-ep">EP007</div>
-            <div class="video-title">How to Setup an AI Agent to Help You Accomplish Tasks</div>
-          </div>
-        </a>
-        <a class="video-card" href="https://youtu.be/le1j8NZfC7M" target="_blank" rel="noopener noreferrer">
-          <div class="video-thumb">
-            <img src="https://i.ytimg.com/vi/le1j8NZfC7M/hqdefault.jpg" alt="What On-Chain Data Actually Tells You" loading="lazy" />
-          </div>
-          <div class="video-info">
-            <div class="video-ep">EP006</div>
-            <div class="video-title">What On-Chain Data Actually Tells You (and How to Read It Without a Bloomberg Terminal)</div>
-          </div>
-        </a>
-        <a class="video-card" href="https://youtu.be/ZMCDH4ANtkw" target="_blank" rel="noopener noreferrer">
-          <div class="video-thumb">
-            <img src="https://i.ytimg.com/vi/ZMCDH4ANtkw/hqdefault.jpg" alt="Beehiiv vs Substack for Technical Newsletters" loading="lazy" />
-          </div>
-          <div class="video-info">
-            <div class="video-ep">EP005</div>
-            <div class="video-title">Beehiiv vs Substack for Technical Newsletters: Which One Pays Better</div>
-          </div>
-        </a>
-      </div>
+      <div class="video-list" id="latestEpisodesList"></div>
     </div>
 
   </div>
@@ -1193,7 +1149,7 @@ spreadsheet for free...
   <form class="cta-form" onsubmit="handleSubmit(event, 'ctaSuccess')">
     <label for="ctaEmail" class="sr-only">Email address</label>
     <input type="email" id="ctaEmail" name="email" placeholder="your@email.com" required autocomplete="email" aria-label="Email address" />
-    <button type="submit" class="btn-dark" aria-label="Subscribe to newsletter">Ship It →</button>
+    <button type="submit" class="btn-dark" aria-label="Subscribe to newsletter">Subscribe or Die</button>
   </form>
   <p class="success-msg" id="ctaSuccess" style="color:#000; margin-top:1rem;">✓ YOU'RE IN. SEE YOU THURSDAY.</p>
 </div>
@@ -1219,6 +1175,141 @@ spreadsheet for free...
 </footer>
 
 <script>
+  function escapeHtml(input) {
+    return String(input)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  var latestContent = [
+    {
+      number: 10,
+      dateLabel: 'MAY 25, 2026',
+      title: 'How I built a personal AI assistant that runs my content business',
+      postUrl: 'https://newsletter.deployordie.io/p/how-i-built-a-personal-ai-assistant-that-runs-my-content-business',
+      episodeUrl: 'https://newsletter.deployordie.io/p/how-i-built-a-personal-ai-assistant-that-runs-my-content-business',
+      thumbnailUrl: 'https://media.beehiiv.com/cdn-cgi/image/format=auto,fit=scale-down,onerror=redirect/uploads/publication/logo/7c4c1291-7b1f-47bc-81f4-163e86602809/logo.png'
+    },
+    {
+      number: 9,
+      dateLabel: 'MAY 14, 2026',
+      title: 'How to Productize Your DevOps Skills: From Salary to $1,500-Per-Project Offer',
+      postUrl: 'https://newsletter.deployordie.io/p/how-to-productize-your-devops-skills-from-salary-to-1-500-per-project-offer',
+      episodeUrl: 'https://newsletter.deployordie.io/p/how-to-productize-your-devops-skills-from-salary-to-1-500-per-project-offer',
+      thumbnailUrl: 'https://media.beehiiv.com/cdn-cgi/image/format=auto,fit=scale-down,onerror=redirect/uploads/publication/logo/7c4c1291-7b1f-47bc-81f4-163e86602809/logo.png'
+    },
+    {
+      number: 8,
+      dateLabel: 'MAY 8, 2026',
+      title: 'How I Set Up OpenClaw to Automate My Content Workflow',
+      postUrl: 'https://newsletter.deployordie.io/p/how-i-set-up-openclaw-to-automate-my-content-workflow',
+      episodeUrl: 'https://newsletter.deployordie.io/p/how-i-set-up-openclaw-to-automate-my-content-workflow',
+      thumbnailUrl: 'https://media.beehiiv.com/cdn-cgi/image/format=auto,fit=scale-down,onerror=redirect/uploads/publication/logo/7c4c1291-7b1f-47bc-81f4-163e86602809/logo.png'
+    },
+    {
+      number: 7,
+      dateLabel: 'MAY 1, 2026',
+      title: 'I Set Up an AI Agent to Draft My Weekly Newsletter. Here\'s the Prompt.',
+      postUrl: 'https://newsletter.deployordie.io/p/i-set-up-an-ai-agent-to-draft-my-weekly-newsletter-here-s-the-prompt',
+      episodeUrl: 'https://youtu.be/0DMyLW2mKXs',
+      thumbnailUrl: 'https://i.ytimg.com/vi/0DMyLW2mKXs/hqdefault.jpg'
+    },
+    {
+      number: 6,
+      dateLabel: 'APR 25, 2026',
+      title: 'What On-Chain Data Actually Tells You (and How to Read It Without a Bloomberg Terminal)',
+      postUrl: 'https://newsletter.deployordie.io/p/what-on-chain-data-actually-tells-you-and-how-to-read-it-without-a-bloomberg-terminal',
+      episodeUrl: 'https://youtu.be/le1j8NZfC7M',
+      thumbnailUrl: 'https://i.ytimg.com/vi/le1j8NZfC7M/hqdefault.jpg'
+    },
+    {
+      number: 5,
+      dateLabel: 'APR 19, 2026',
+      title: 'Beehiiv vs Substack for Technical Newsletters: Which One Pays Better',
+      postUrl: 'https://newsletter.deployordie.io/p/beehiiv-vs-substack-for-technical-newsletters-which-one-pays-better',
+      episodeUrl: 'https://youtu.be/ZMCDH4ANtkw',
+      thumbnailUrl: 'https://i.ytimg.com/vi/ZMCDH4ANtkw/hqdefault.jpg'
+    },
+    {
+      number: 4,
+      dateLabel: 'APR 11, 2026',
+      title: 'AI Tool of the Week: GitHub Actions - Release Automation',
+      postUrl: 'https://newsletter.deployordie.io/p/ai-tool-of-the-week-github-actions-release-automation',
+      episodeUrl: 'https://newsletter.deployordie.io/p/ai-tool-of-the-week-github-actions-release-automation',
+      thumbnailUrl: 'https://media.beehiiv.com/cdn-cgi/image/format=auto,fit=scale-down,onerror=redirect/uploads/publication/logo/7c4c1291-7b1f-47bc-81f4-163e86602809/logo.png'
+    },
+    {
+      number: 3,
+      dateLabel: 'APR 2, 2026',
+      title: '5 AI Tools That Actually Belong in a Release Pipeline',
+      postUrl: 'https://newsletter.deployordie.io/p/5-ai-tools-that-actually-belong-in-a-release-pipeline',
+      episodeUrl: 'https://newsletter.deployordie.io/p/5-ai-tools-that-actually-belong-in-a-release-pipeline',
+      thumbnailUrl: 'https://media.beehiiv.com/cdn-cgi/image/format=auto,fit=scale-down,onerror=redirect/uploads/publication/logo/7c4c1291-7b1f-47bc-81f4-163e86602809/logo.png'
+    },
+    {
+      number: 2,
+      dateLabel: 'MAR 26, 2026',
+      title: 'New post',
+      postUrl: 'https://newsletter.deployordie.io/p/new-post',
+      episodeUrl: 'https://newsletter.deployordie.io/p/new-post',
+      thumbnailUrl: 'https://media.beehiiv.com/cdn-cgi/image/format=auto,fit=scale-down,onerror=redirect/uploads/publication/logo/7c4c1291-7b1f-47bc-81f4-163e86602809/logo.png'
+    },
+    {
+      number: 1,
+      dateLabel: 'MAR 19, 2026',
+      title: 'I automated my least favorite job task. Here\'s how.',
+      postUrl: 'https://newsletter.deployordie.io/p/i-automated-my-least-favorite-job-task-here-s-how',
+      episodeUrl: 'https://newsletter.deployordie.io/p/i-automated-my-least-favorite-job-task-here-s-how',
+      thumbnailUrl: 'https://media.beehiiv.com/cdn-cgi/image/format=auto,fit=scale-down,onerror=redirect/uploads/publication/logo/7c4c1291-7b1f-47bc-81f4-163e86602809/logo.png'
+    }
+  ];
+
+  function padEpisodeNumber(number) {
+    return number < 10 ? '0' + number : String(number);
+  }
+
+  function renderLatestContent() {
+    var issuesList = document.getElementById('latestIssuesList');
+    var episodesList = document.getElementById('latestEpisodesList');
+    if (!issuesList || !episodesList) return;
+
+    var issuesHtml = '';
+    var episodesHtml = '';
+
+    latestContent.forEach(function(item) {
+      var safeTitle = escapeHtml(item.title);
+      var safePostUrl = escapeHtml(item.postUrl);
+      var safeEpisodeUrl = escapeHtml(item.episodeUrl);
+      var safeThumb = escapeHtml(item.thumbnailUrl);
+      var issueLabel = 'ISSUE #' + padEpisodeNumber(item.number) + ' &nbsp;·&nbsp; ' + item.dateLabel;
+      var episodeLabel = 'EP' + padEpisodeNumber(item.number);
+
+      issuesHtml += '<a class="issue-card" href="' + safePostUrl + '" target="_blank" rel="noopener noreferrer">'
+        + '<div class="issue-meta">' + issueLabel + '</div>'
+        + '<div class="issue-title">' + safeTitle + '</div>'
+        + '<span class="issue-arrow">READ → </span>'
+        + '</a>';
+
+      episodesHtml += '<a class="video-card" href="' + safeEpisodeUrl + '" target="_blank" rel="noopener noreferrer">'
+        + '<div class="video-thumb">'
+        + '<img src="' + safeThumb + '" alt="' + safeTitle + '" loading="lazy" />'
+        + '</div>'
+        + '<div class="video-info">'
+        + '<div class="video-ep">' + episodeLabel + '</div>'
+        + '<div class="video-title">' + safeTitle + '</div>'
+        + '</div>'
+        + '</a>';
+    });
+
+    issuesList.innerHTML = issuesHtml;
+    episodesList.innerHTML = episodesHtml;
+  }
+
+  renderLatestContent();
+
   function handleSubmit(e, successId) {
     e.preventDefault();
     var form = e.target;
